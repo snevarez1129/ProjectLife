@@ -13,7 +13,8 @@ int main() {
 
     //open the inventory file
     FILE *fptr;
-    fptr = fopen("inventory.txt", "a");
+    // fptr = fopen("inventory.txt", "a");
+    fptr = fopen("inventory.txt", "r");
 
     //store data in local data structure
     struct ITEM *ptr_item;
@@ -51,15 +52,31 @@ int main() {
     //printf("color = %s\n", ptr_item->color);
 
     //write the stored local data to the file
-    ERROR_CHECK = write(ptr_item, fptr);
-    if(ERROR_CHECK != 0) {
-        printf("ERROR -3");
+    // ERROR_CHECK = write(ptr_item, fptr);
+    // if(ERROR_CHECK != 0) {
+    //     printf("ERROR -3");
+    //     //write to error log file => Could not get user input
+    //     //before quitting need to close error log file
+    //     fclose(fptr); //before quitting need to close the inventory file
+    //     free(ptr_item); //before quitting need to free malloc
+    //     return -3;
+    // }
+
+    ERROR_CHECK = read(ptr_item, fptr);
+    if (ERROR_CHECK != 0) {
+        printf("ERROR -4");
         //write to error log file => Could not get user input
         //before quitting need to close error log file
         fclose(fptr); //before quitting need to close the inventory file
         free(ptr_item); //before quitting need to free malloc
-        return -3;
+        return -4;
     }
+
+    //print out read data
+    printf("category = %s\n", ptr_item->category);
+    printf("item = %s\n", ptr_item->item);
+    printf("brand = %s\n", ptr_item->brand);
+    printf("color = %s\n", ptr_item->color);
 
     //repeat
 
@@ -115,4 +132,11 @@ int write(struct ITEM *ptr, FILE *stream) {
 int read(struct ITEM *ptr, FILE *stream) {
 
     //read from the file
+    ERROR_CHECK = fread(ptr, sizeof(char), sizeof(struct ITEM), stream);
+    if(ERROR_CHECK != sizeof(struct ITEM)) {
+        printf("Error reading from file");
+        return -4;
+    }
+
+    return 0;
 }
