@@ -1,15 +1,20 @@
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef __INVENTORY_H__
+#define __INVENTORY_H__
+
+//Defines
+#define BUFFER_SIZE 1024
+#define CATEGORIES 7
 
 //Variables
 int ERROR_CHECK;
+char CONTINUE;
 
 //Data Structure
 struct ITEM { //ITEM
-    char category[20]; //category
-    char item[20]; //clothing item
-    char brand[20]; //brand
-    char color[20]; //color
+    char category[BUFFER_SIZE]; //category
+    char item[BUFFER_SIZE]; //clothing item
+    char brand[BUFFER_SIZE]; //brand
+    char color[BUFFER_SIZE]; //color
 };
 
 //Function Prototypes

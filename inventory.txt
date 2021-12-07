@@ -1,3 +1,7 @@
 Category: outwear		Item: hoodie		Brand: rvca		Color: burgundy
 Category: bottoms		Item: shorts		Brand: rhone		Color: salmon
 Category: tops		Item: t-shirt		Brand: jeep		Color: blue
+CATEGORY: bottoms || ITEM: shorts || BRAND: rhone || COLOR: salmon
+CATEGORY: tops || ITEM: t-shirt || BRAND: jeep || COLOR: blue
+CATEGORY: tops || ITEM: t-shirt || BRAND: bust || COLOR: white
+CATEGORY: tops || ITEM: t-shirt || BRAND: bust || COLOR: white

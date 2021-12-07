@@ -3,93 +3,6 @@
 #include <string.h>
 #include "inventory.h"
 
-int main() {
-
-    printf("Welcome!\nInitializing . . . \n");
-
-    //open error log file <Req-3>
-    //FILE *eptr;
-    //eptr = fopen("error.txt", "w");
-
-    //open the inventory file <Req-2>
-    FILE *fptr;
-    fptr = fopen("inventory.txt", "a");
-    // fptr = fopen("inventory.txt", "r");
-
-    //create local data structure to store user input before writing it to file
-    struct ITEM *ptr_item;
-    ptr_item = (struct ITEM *) malloc(sizeof(struct ITEM));
-    //error check malloc => returns NULL if failed
-    if(ptr_item == NULL) {
-        printf("ERROR -1");
-        //write to error log file => Could not allocate space for struct <Req-7>
-        //before quitting need to close error log file
-        fclose(fptr); //before quitting need to close the inventory file
-        return -1;
-    }
-
-    printf("Success!\n"); //print statements after each step
-    printf("Gathering user input . . . \n");
-
-    //accept user input <Req-6>
-    ERROR_CHECK = userInput(ptr_item);
-    //error check everything
-    if(ERROR_CHECK != 0) {
-        printf("ERROR -2");
-        //write to error log file => Could not get user input <Req-7>
-        //before quitting need to close error log file
-        fclose(fptr); //before quitting need to close the inventory file
-        free(ptr_item); //before quitting need to free malloc
-        return -2;
-    }
-
-    printf("Input saved successfully!\n"); //print statements after each step
-
-    //print out written data
-    //printf("category = %s\n", ptr_item->category);
-    //printf("item = %s\n", ptr_item->item);
-    //printf("brand = %s\n", ptr_item->brand);
-    //printf("color = %s\n", ptr_item->color);
-
-    //write the stored local data to the file <Req-8>
-    ERROR_CHECK = write(ptr_item, fptr);
-    if(ERROR_CHECK != 0) {
-        printf("ERROR -3");
-        //write to error log file => Could not get user input <Req-7>
-        //before quitting need to close error log file
-        fclose(fptr); //before quitting need to close the inventory file
-        free(ptr_item); //before quitting need to free malloc
-        return -3;
-    }
-
-    // ERROR_CHECK = read(ptr_item, fptr);
-    // if (ERROR_CHECK != 0) {
-    //     printf("ERROR -4");
-    //     //write to error log file => Could not get user input
-    //     //before quitting need to close error log file
-    //     fclose(fptr); //before quitting need to close the inventory file
-    //     free(ptr_item); //before quitting need to free malloc
-    //     return -4;
-    // }
-
-    //print out read data
-    // printf("category = %s\n", ptr_item->category);
-    // printf("item = %s\n", ptr_item->item);
-    // printf("brand = %s\n", ptr_item->brand);
-    // printf("color = %s\n", ptr_item->color);
-
-    //repeat
-
-    printf("Shutting down . . .\n");
-
-    //before quitting need to close the error log file
-    fclose(fptr); //before quitting need to close the inventory file
-    free(ptr_item); //before quitting need to free malloc
-    
-    printf("Goodbye!\n");
-    return 0;
-}
-
 int userInput(struct ITEM *ptr) {
 
     //get user input
@@ -121,10 +34,26 @@ int userInput(struct ITEM *ptr) {
 
 int write(struct ITEM *ptr, FILE *stream) {
 
+    char buffer[BUFFER_SIZE];
+
+    //format string to be written
+    // strcat(str, "CATEGORY: ");
+    // strcat(str, ptr->category);
+    // strcat(str, " ITEM: ");
+    // strcat(str, ptr->item);
+    // strcat(str, " BRAND: ");
+    // strcat(str, ptr->brand);
+    // strcat(str, " COLOR: ");
+    // strcat(str, ptr->color);
+    // strcat(str, "\n");
+    // printf("%s", str);
+    ERROR_CHECK = sprintf(buffer, "CATEGORY: %s || ITEM: %s || BRAND: %s || COLOR: %s\n", ptr->category, ptr->item, ptr->brand, ptr->color);
+    //error_check should be > 0
+
     //write data to stream
-    ERROR_CHECK = fwrite(ptr, sizeof(char), sizeof(struct ITEM), stream);
-    if(ERROR_CHECK != sizeof(struct ITEM)) {
-        printf("Error writing to file");
+    ERROR_CHECK = fwrite(buffer, sizeof(char), strlen(buffer), stream);
+    if(ERROR_CHECK != strlen(buffer)) {
+        printf("Error writing to file => %d bytes written\n", ERROR_CHECK);
         return -3;
     }
 
