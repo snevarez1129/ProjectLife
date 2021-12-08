@@ -1,2 +1,5 @@
+# OS Files #
 .DS_Store
-wardrobe.xlsx
+
+# Excel Files #
+*.xlsx
